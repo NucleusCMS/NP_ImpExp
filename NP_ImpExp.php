@@ -113,7 +113,8 @@ class NP_ImpExp extends NucleusPlugin {
 		if (file_exists($this->getDirectory().'language/'.$language.'.php')) 
 			@ include_once($this->getDirectory().'language/'.$language.'.php');
     }
-			function importFromFile() {
+		
+	function importFromFile() {
 		global $CONF;
 
 		$upInfo = postFileInfo(NP_IMPEXP_UPLOADED_FILENAME);
@@ -448,7 +449,8 @@ class NP_ImpExp extends NucleusPlugin {
 		return $mediatag;
 	}
 	
-	function _convertDelim($matches){		return $matches[0] . ' ';
+	function _convertDelim($matches){
+		return $matches[0] . ' ';
 	}
 
 	function getBloglist(){
