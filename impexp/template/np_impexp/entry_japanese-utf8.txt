@@ -1,0 +1,26 @@
+AUTHOR: {{author}}
+TITLE: {{title}}
+STATUS: {{status}}
+ALLOW COMMENTS: {{allow_comments}}
+CONVERT BREAKS: {{convert_breaks}}
+ALLOW PINGS: 1
+PRIMARY CATEGORY: {{categoryname}}
+CATEGORY: {{categoryname}}
+
+DATE: {{date}}
+-----
+BODY:
+{{body}}
+-----
+EXTENDED BODY:
+{{more}}
+-----
+EXCERPT:
+
+-----
+KEYWORDS:
+
+-----
+{{comment}}
+{{tb}}
+--------

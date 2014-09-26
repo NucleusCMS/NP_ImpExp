@@ -1,0 +1,8 @@
+PING:
+TITLE: {{title}}
+URL: {{url}}
+IP: {{ip}}
+BLOG NAME: {{blogname}}
+DATE: {{date}}
+{{excerpt}}
+-----

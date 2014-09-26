@@ -1,0 +1,56 @@
+<h2>Export</h2>
+
+<form method="post" action="{{indexurl}}" style="display:inline">
+<input type="hidden" name="action" value="export" />
+<input type="hidden" name="ticket" value="{{ticket|}}" />
+<table>
+	<tbody>
+		<tr>
+			<td>ExportするBlog</td>
+			<td>{{blogselect}}</td>
+		</tr>
+		<tr>
+			<td>エントリ中の&lt;br /&gt;を除去する</td>
+			<td><input type="checkbox" name="stripbr" checked="checked" value="1" /></td>
+		</tr>
+		<tr>
+			<td>実行</td>
+			<td><input type="submit" name="submit" value="Exportを実行する" /></td>
+		</tr>
+	</tbody>
+</table>
+</form>
+	
+<h2>Import</h2>
+
+<form method="post" action="{{indexurl}}" style="display:inline" enctype="multipart/form-data">
+<input type="hidden" name="action" value="import" />
+<input type="hidden" name="ticket" value="{{ticket|}}" />
+<table>
+	<tbody>
+		<tr>
+			<td>MT File</td>
+			<td><input type="file" name="{{uploadedFileName}}" /></td>
+		</tr>
+		<tr>
+			<td>Import先のBlog</td>
+			<td>{{blogselect}}</td>
+		</tr>
+		<tr>
+			<td>ファイルの文字コード</td>
+			<td>
+				<select name="encoding">
+					<option value="{{charset}}">このブログと同じ</option>
+					<option value="ISO-2022-JP,ASCII,JIS,UTF-8,EUC-JP,SJIS,ISO-2022-JP">自動認識</option>
+					<option value="UTF-8">UTF-8</option>
+					<option value="EUC-JP">EUC-JP</option>
+				</select>				
+			</td>
+		</tr>
+		<tr>
+			<td>実行</td>
+			<td><input type="submit" name="submit" value="Importを実行する" /></td>
+		</tr>
+	</tbody>
+</table>
+</form>

@@ -1,0 +1,8 @@
+COMMENT:
+AUTHOR: {{author}}
+EMAIL: {{email}}
+IP: {{ip}}
+URL: {{url}}
+DATE: {{date}}
+{{comment}}
+-----
