@@ -109,9 +109,10 @@ class NP_ImpExp extends NucleusPlugin {
 	
     function init(){
 		// include language file for this plugin 
-		$language = ereg_replace( '[\\|/]', '', getLanguageName()); 
-		if (file_exists($this->getDirectory().'language/'.$language.'.php')) 
-			@ include_once($this->getDirectory().'language/'.$language.'.php');
+		$lang_name = str_replace( array('\\','/'), '', getLanguageName());
+		$NP_ImpExp_dir = $this->getDirectory();
+		if (is_file("{$NP_ImpExp_dir}language/{$lang_name}.php")) 
+			@ include_once("{$NP_ImpExp_dir}language/{$lang_name}.php");
     }
 		
 	function importFromFile() {
