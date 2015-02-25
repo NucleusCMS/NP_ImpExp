@@ -75,6 +75,7 @@ class NP_ImpExp extends NucleusPlugin {
 	function supportsFeature($what) {
 		switch($what){
 			case 'SqlTablePrefix':
+			case 'SqlApi':
 			case 'HelpPage':
 			return 1;
 			default:
@@ -86,7 +87,7 @@ class NP_ImpExp extends NucleusPlugin {
 		return array('QuickMenu');
 	}
 
-	function getMinNucleusVersion() { return 320; }
+	function getMinNucleusVersion() { return 350; }
 	function getMinNucleusPatchLevel() { return 0; }
 	
 	function hasAdminArea() { return 1; }
@@ -228,15 +229,15 @@ class NP_ImpExp extends NucleusPlugin {
 			
 		$query = sprintf('INSERT INTO '.sql_table('plugin_tb').' (tb_id, url, title, excerpt, blog_name, timestamp) '
 			. "VALUES ('%s', '%s', '%s', '%s', '%s', '%s')"
-			, mysql_real_escape_string( intval($itemid) )
-			, mysql_real_escape_string( $ping["URL"] )
-			, mysql_real_escape_string( $ping["TITLE"] )
-			, mysql_real_escape_string( strip_tags($ping["EXCERPT"]) )
-			, mysql_real_escape_string( $ping["BLOG NAME"] )
-			, mysql_real_escape_string( $timestamp )
+			, sql_real_escape_string( intval($itemid) )
+			, sql_real_escape_string( $ping["URL"] )
+			, sql_real_escape_string( $ping["TITLE"] )
+			, sql_real_escape_string( strip_tags($ping["EXCERPT"]) )
+			, sql_real_escape_string( $ping["BLOG NAME"] )
+			, sql_real_escape_string( $timestamp )
 			);
 		@sql_query($query);
-		$tbid = mysql_insert_id();
+		$tbid = sql_insert_id();
 		
 		echo "Trackback: {$ping['TITLE']} tbid:{$tbid}<br />";
 	}
@@ -266,18 +267,18 @@ class NP_ImpExp extends NucleusPlugin {
 
 		$query = sprintf('INSERT INTO '.sql_table('comment').' (CUSER, CMAIL, CMEMBER, CBODY, CITEM, CTIME, CHOST, CIP, CBLOG) '
 			. "VALUES ('%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s')"
-			, mysql_real_escape_string( $name )
-			, mysql_real_escape_string( $url )
-			, mysql_real_escape_string( $memberid )
-			, mysql_real_escape_string( nl2br(strip_tags($comment["COMMENT"])) )
-			, mysql_real_escape_string( $itemid )
-			, mysql_real_escape_string( $timestamp )
-			, mysql_real_escape_string( $comment["IP"] )
-			, mysql_real_escape_string( $comment["IP"] )
-			, mysql_real_escape_string( $this->blogid )
+			, sql_real_escape_string( $name )
+			, sql_real_escape_string( $url )
+			, sql_real_escape_string( $memberid )
+			, sql_real_escape_string( nl2br(strip_tags($comment["COMMENT"])) )
+			, sql_real_escape_string( $itemid )
+			, sql_real_escape_string( $timestamp )
+			, sql_real_escape_string( $comment["IP"] )
+			, sql_real_escape_string( $comment["IP"] )
+			, sql_real_escape_string( $this->blogid )
 		);
 		@sql_query($query);
-		$cid = mysql_insert_id();
+		$cid = sql_insert_id();
 		echo "Comment: {$name}/{$memberid} cid:{$cid}<br />";
 	}
 	
@@ -303,15 +304,15 @@ class NP_ImpExp extends NucleusPlugin {
 		$categories = array();
 		
 		$query = 'SELECT inumber as itemid, ititle as title, ibody as body, imore as more, icat as catid, iclosed as closed, idraft as draft, iauthor as author, UNIX_TIMESTAMP(itime) as ts FROM ' . sql_table('item') . ' WHERE iblog = ' . $blogid . ' order by itime';
-		$res = mysql_query($query);
-		while( $item = mysql_fetch_object($res) ){
+		$res = sql_query($query);
+		while( $item = sql_fetch_object($res) ){
 			$itemVar = array();
 			$manager->notify('PreItem', array('blog' => $blog, 'item' => $item));
 
 			// comment
 			$commentQuery = 'SELECT * , UNIX_TIMESTAMP(ctime) as ts FROM ' . sql_table('comment') . ' WHERE citem = ' . $item->itemid . ' order by ctime';
-			$commentRes = mysql_query($commentQuery);
-			while( $comment = mysql_fetch_assoc($commentRes) ){
+			$commentRes = sql_query($commentQuery);
+			while( $comment = sql_fetch_assoc($commentRes) ){
 				$commentVar = array();
 				
 				if( $memberid = $comment['cmember'] ){
@@ -346,8 +347,8 @@ class NP_ImpExp extends NucleusPlugin {
 
 			//tb
 			$tbQuery = 'SELECT * , UNIX_TIMESTAMP(timestamp) as ts FROM ' . sql_table('plugin_tb') . ' WHERE tb_id = ' . $item->itemid. ' order by timestamp';
-			$tbRes = mysql_query($tbQuery);
-			while( $tb = mysql_fetch_assoc($tbRes) ){
+			$tbRes = sql_query($tbQuery);
+			while( $tb = sql_fetch_assoc($tbRes) ){
 				if($tb['block']) continue;				
 				$tbVar = array();
 				
@@ -458,7 +459,7 @@ class NP_ImpExp extends NucleusPlugin {
 		$query = 'SELECT bnumber, bname FROM ' . sql_table('blog');
 		$res = sql_query($query);
 		$list = array();
-		while( $row = mysql_fetch_array($res) ){
+		while( $row = sql_fetch_array($res) ){
 			list($blogid, $blogname) = $row;
 			$list[$blogid] = $blogname; 
 		}
