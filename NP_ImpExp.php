@@ -294,12 +294,12 @@ class NP_ImpExp extends NucleusPlugin {
 		$member_bk = $member;
 		$member =& MEMBER::createFromID(-1);
 
-		$tpl =& new cles_Template(dirname(__FILE__).'/impexp/template');
+		$tpl = new cles_Template(dirname(__FILE__).'/impexp/template');
 		$entryTpl = $tpl->fetch('entry', strtolower(__CLASS__), 'txt');
 		$commentTpl = $tpl->fetch('comment', strtolower(__CLASS__), 'txt');
 		$tbTpl = $tpl->fetch('tb', strtolower(__CLASS__), 'txt');
 		
-		$blog =& new BLOG($blogid);
+		$blog = new BLOG($blogid);
 		$members = array();
 		$categories = array();
 		
