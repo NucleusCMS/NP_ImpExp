@@ -64,12 +64,12 @@ class NP_ImpExp extends NucleusPlugin {
 
 	// version of the plugin
 	function getVersion() {
-		return '1.1';
+		return '1.60';
 	}
 
 	// a description to be shown on the installed plugins listing
 	function getDescription() {
-		return '[$Revision: 1.59 $]<br />'.NP_IMPEXP_description ;
+		return NP_IMPEXP_description ;
 	}
 	
 	function supportsFeature($what) {
