@@ -46,7 +46,7 @@ class cles_Template {
 	function cles_Template($templateDir) {
 		global $CONF;
 		$this->templateDir = $templateDir;
-		$this->lang = ereg_replace( '[\\|/]', '', getLanguageName());
+		$this->lang = str_replace( array('\\','/'), '', getLanguageName());
 	}
 
 	function fetch($name, $dir = null, $suffix = 'html') {
