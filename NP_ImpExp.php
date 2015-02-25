@@ -306,7 +306,7 @@ class NP_ImpExp extends NucleusPlugin {
 		$res = mysql_query($query);
 		while( $item = mysql_fetch_object($res) ){
 			$itemVar = array();
-			$manager->notify('PreItem', array('blog' => &$blog, 'item' => &$item));
+			$manager->notify('PreItem', array('blog' => $blog, 'item' => $item));
 
 			// comment
 			$commentQuery = 'SELECT * , UNIX_TIMESTAMP(ctime) as ts FROM ' . sql_table('comment') . ' WHERE citem = ' . $item->itemid . ' order by ctime';
