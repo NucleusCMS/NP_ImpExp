@@ -85,9 +85,9 @@ switch ($action) {
 
 // html start
 $oPluginAdmin->start();
-$fb =& new cles_Feedback($oPluginAdmin);
+$fb = new cles_Feedback($oPluginAdmin);
 
-$templateEngine =& new cles_Template(dirname(__FILE__).'/template');
+$templateEngine = new cles_Template(dirname(__FILE__).'/template');
 define('NP_IMPEXP_TEMPLATEDIR_INDEX', 'index');
 $tplVars = array(
 	'indexurl' => serverVar('PHP_SELF'),
