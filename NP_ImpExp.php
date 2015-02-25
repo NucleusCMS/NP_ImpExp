@@ -307,7 +307,7 @@ class NP_ImpExp extends NucleusPlugin {
 		$res = sql_query($query);
 		while( $item = sql_fetch_object($res) ){
 			$itemVar = array();
-			$params = array('blog' => $blog, 'item' => $item);
+			$params = array('blog' => &$blog, 'item' => &$item);
 			$manager->notify('PreItem', $params);
 
 			// comment
