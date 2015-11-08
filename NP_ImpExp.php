@@ -127,7 +127,7 @@ class NP_ImpExp extends NucleusPlugin {
         if ($filesize > $CONF['MaxUploadSize']) {
             $this->error(_ERROR_FILE_TOO_BIG);
         }
-        if (!preg_match("/^text\//i", $filetype)) {
+        if (!preg_match('@^text/@i', $filetype)) {
             return _ERROR_BADFILETYPE . "($filetype)";
         }
         if (!is_uploaded_file($myfile)) {
@@ -303,7 +303,8 @@ class NP_ImpExp extends NucleusPlugin {
         $members = array();
         $categories = array();
         
-        $query = 'SELECT inumber as itemid, ititle as title, ibody as body, imore as more, icat as catid, iclosed as closed, idraft as draft, iauthor as author, UNIX_TIMESTAMP(itime) as ts FROM ' . sql_table('item') . ' WHERE iblog = ' . $blogid . ' order by itime';
+        $tbl_item = sql_table('item');
+        $query = "SELECT inumber as id, ititle as title, ibody as body, imore as more, icat as catid, iclosed as closed, idraft as draft, iauthor as author, UNIX_TIMESTAMP(itime) as ts FROM {$tbl_item} WHERE iblog={$blogid} ORDER BY itime";
         $res = sql_query($query);
         while( $item = sql_fetch_object($res) ){
             $itemVar = array();
@@ -311,7 +312,8 @@ class NP_ImpExp extends NucleusPlugin {
             $manager->notify('PreItem', $params);
 
             // comment
-            $commentQuery = 'SELECT * , UNIX_TIMESTAMP(ctime) as ts FROM ' . sql_table('comment') . ' WHERE citem = ' . $item->itemid . ' order by ctime';
+            $tbl_comment = sql_table('comment');
+            $commentQuery = "SELECT * , UNIX_TIMESTAMP(ctime) as ts FROM {$tbl_comment} WHERE citem={$item->id} order by ctime";
             $commentRes = sql_query($commentQuery);
             while( $comment = sql_fetch_assoc($commentRes) ){
                 $commentVar = array();
@@ -347,7 +349,8 @@ class NP_ImpExp extends NucleusPlugin {
             }
 
             //tb
-            $tbQuery = 'SELECT * , UNIX_TIMESTAMP(timestamp) as ts FROM ' . sql_table('plugin_tb') . ' WHERE tb_id = ' . $item->itemid. ' order by timestamp';
+            $tbl_tb = sql_table('plugin_tb');
+            $tbQuery = "SELECT * , UNIX_TIMESTAMP(timestamp) as ts FROM {$tbl_tb} WHERE tb_id={$item->id} order by timestamp";
             $tbRes = sql_query($tbQuery);
             while( $tb = sql_fetch_assoc($tbRes) ){
                 if($tb['block']) continue;                
@@ -435,8 +438,8 @@ class NP_ImpExp extends NucleusPlugin {
             case 'image':
             case 'popup':
                 $attr = '';
-                $attr .= $w ? " width=\"$w\"": '' ;
-                $attr .= $h ? " hight=\"$h\"": '' ;
+                $attr .= $w ? sprintf(' width="%s"',$w): '' ;
+                $attr .= $h ? sprintf(' width="%s"',$h): '' ;
                 $attr .= $alt ? sprintf(' alt="%s" title="%s"', $alt,$alt): sprintf(' alt="%s" title="%s"', $filename,$filename);
 
                 $title = ( $alt ) ? $alt : $filename;
